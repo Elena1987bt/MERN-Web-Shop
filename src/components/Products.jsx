@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { popularProducts } from '../data';
 import Product from './Product';
 
@@ -13,7 +14,9 @@ const Products = () => {
   return (
     <Container>
       {popularProducts.map((item) => (
-        <Product item={item} key={item.id} />
+        <Link to="/product" className="link">
+          <Product item={item} key={item.id} />
+        </Link>
       ))}
     </Container>
   );
