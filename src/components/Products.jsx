@@ -14,7 +14,7 @@ const Products = () => {
   return (
     <Container>
       {popularProducts.map((item) => (
-        <Link to="/product" className="link">
+        <Link to="/product" className="link linkProduct">
           <Product item={item} key={item.id} />
         </Link>
       ))}
