@@ -1,5 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
 
@@ -152,7 +153,9 @@ const Product = () => {
               <Amount>1</Amount>
               <AddIcon />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Link to="/cart " className="link">
+              <Button>ADD TO CART</Button>
+            </Link>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

@@ -4,6 +4,7 @@ import ProductList from './pages/ProductList';
 import Product from './pages/Product';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Cart from './pages/Cart';
 import Announcement from './components/Announcement';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
@@ -28,6 +29,9 @@ const App = () => {
         </Route>
         <Route path="/register">
           <Register />
+        </Route>
+        <Route path="/cart">
+          <Cart />
         </Route>
       </Switch>
       <Newsletter />
