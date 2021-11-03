@@ -16,12 +16,6 @@ app.use(express.json({ extended: true }));
 app.use(cors());
 app.options('*', cors());
 
-// Routes
-app.get('/', (req, res) => res.send('Hello from WEB-SHOP API'));
-app.use('/api/auth', authRouter);
-app.use('/api/user', userRouter);
-app.use('/api/product', productRouter);
-
 // Database connection
 mongoose
   .connect(process.env.DATABASE_URL, {
@@ -30,6 +24,12 @@ mongoose
   })
   .then((con) => console.log('Database connected...'))
   .catch((error) => console.log(error));
+
+// Routes
+app.get('/', (req, res) => res.send('Hello from WEB-SHOP API'));
+app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
+app.use('/api/product', productRouter);
 
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
