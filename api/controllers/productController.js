@@ -2,11 +2,21 @@ const mongoose = require('mongoose');
 const Product = require('../models/productModel');
 
 exports.getProducts = async (req, res) => {
-  const query = req.query.new;
+  const qNew = req.query.new;
+  const qCategory = req.query.category;
   try {
-    const products = query
-      ? await Product.find().sort({ _id: -1 }).limit(Number(query))
-      : await Product.find();
+    let products;
+    if (qNew) {
+      products = await Product.find().sort({ _id: -1 }).limit(Number(qNew));
+    } else if (qCategory) {
+      products = await Product.find({
+        categories: {
+          $in: [qCategory],
+        },
+      });
+    } else {
+      products = await Product.find();
+    }
 
     res.status(200).json({ result: products.length, products });
   } catch (err) {

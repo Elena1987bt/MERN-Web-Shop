@@ -6,6 +6,9 @@ const cors = require('cors');
 const authRouter = require('./routes/authRoute');
 const userRouter = require('./routes/userRoute');
 const productRouter = require('./routes/productRoute');
+const cartRouter = require('./routes/cartRoute');
+const orderRouter = require('./routes/orderRoute');
+const stripeRouter = require('./routes/stripeRoute');
 
 const app = express();
 dotenv.config();
@@ -30,6 +33,9 @@ app.get('/', (req, res) => res.send('Hello from WEB-SHOP API'));
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
+app.use('/api/cart', cartRouter);
+app.use('/api/order', orderRouter);
+app.use('/api/checkout', stripeRouter);
 
 app.listen(port, () => {
   console.log(`App is listening on port ${port}`);
