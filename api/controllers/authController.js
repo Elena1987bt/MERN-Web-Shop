@@ -25,11 +25,11 @@ exports.login = async (req, res) => {
       { isAdmin: user.isAdmin, id: user._id },
       process.env.SECRET_KEY,
       {
-        expiresIn: '1h',
+        expiresIn: '3d',
       }
     );
 
-    res.status(200).json({ result: info, token: token });
+    res.status(200).json({ ...info, token: token });
   } catch (error) {
     res
       .status(500)
@@ -59,10 +59,10 @@ exports.register = async (req, res) => {
       { isAdmin: newUser.isAdmin, id: newUser._id },
       process.env.SECRET_KEY,
       {
-        expiresIn: '30d',
+        expiresIn: '3d',
       }
     );
-    res.status(201).json({ result: newUser, token });
+    res.status(201).json({ ...newUser._doc, token });
   } catch (error) {
     res
       .status(500)
