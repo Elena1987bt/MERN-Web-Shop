@@ -103,7 +103,7 @@ const Slider = () => {
             <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>{item.desc}</Desc>
-              <Link to="/productList">
+              <Link to="/productList/women">
                 <Button>SHOW NOW</Button>
               </Link>
             </InfoContainer>
