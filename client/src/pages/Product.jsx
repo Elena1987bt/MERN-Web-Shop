@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { addProduct } from '../redux/cartRedux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
@@ -121,6 +123,7 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState('');
   const [size, setSize] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getProduct = async () => {
@@ -136,9 +139,7 @@ const Product = () => {
     getProduct();
   }, [id]);
   const handleClick = () => {
-    // dispatch(
-    //   addProduct({ ...product, quantity, color, size })
-    // );
+    dispatch(addProduct({ ...product, quantity, color, size }));
   };
 
   const handleQuantity = (type) => {
@@ -184,9 +185,8 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <AddIcon onClick={() => handleQuantity('inc')} />
             </AmountContainer>
-            <Link to="/cart " className="link">
-              <Button onClick={handleClick}>ADD TO CART</Button>
-            </Link>
+
+            <Button onClick={handleClick}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

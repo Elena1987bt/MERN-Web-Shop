@@ -56,6 +56,7 @@ const Products = ({ category, filters, sort }) => {
       );
     }
   }, [sort]);
+
   return (
     <Container>
       {category
