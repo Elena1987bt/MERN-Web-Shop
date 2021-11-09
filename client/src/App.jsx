@@ -4,6 +4,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Home from './pages/Home';
 import ProductList from './pages/ProductList';
 import Product from './pages/Product';
@@ -16,7 +17,8 @@ import Navbar from './components/Navbar';
 import Newsletter from './components/Newsletter';
 import Success from './pages/Success';
 const App = () => {
-  const user = true;
+  const user = useSelector((state) => state.user.currentUser);
+  console.log(user);
   return (
     <Router>
       <Navbar />
