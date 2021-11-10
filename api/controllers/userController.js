@@ -17,7 +17,7 @@ exports.getUsers = async (req, res) => {
     } catch (err) {
       res
         .status(500)
-        .json({ message: 'Something went wrong', error: error.message });
+        .json({ message: 'Something went wrong', err: err.message });
     }
   } else {
     res.status(403).json('You are not allowed to see all users!');
@@ -108,8 +108,7 @@ exports.getUserStats = async (req, res) => {
         },
       ]);
 
-      const { _id: month, total } = data[0];
-      res.status(200).json({ month, totalUsers: total });
+      res.status(200).json(data);
     } catch (err) {
       res.status(500).json(err);
     }

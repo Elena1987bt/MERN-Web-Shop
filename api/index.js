@@ -2,16 +2,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const app = express();
+dotenv.config();
 
 const authRouter = require('./routes/authRoute');
 const userRouter = require('./routes/userRoute');
 const productRouter = require('./routes/productRoute');
 const cartRouter = require('./routes/cartRoute');
 const orderRouter = require('./routes/orderRoute');
-const stripeRouter = require('./routes/stripeRoute');
-
-const app = express();
-dotenv.config();
+const stripeRouter = require('./routes/stripe');
 const port = process.env.PORT || 5000;
 
 // Middleware
