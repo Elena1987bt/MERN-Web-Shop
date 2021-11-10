@@ -13,14 +13,12 @@ const cartSlice = createSlice({
       state.products.push(action.payload);
       state.total += action.payload.price * action.payload.quantity;
     },
-    removeProduct: (state, action) => {
-      state.quantity -= 1;
-      state.products = state.products.filter(
-        (product) => product._id !== action.payload.id
-      );
-      state.total -= action.payload.price * action.payload.quantity;
+    clearCart: (state, action) => {
+      state.quantity = 0;
+      state.products = [];
+      state.total = 0;
     },
   },
 });
-export const { addProduct, removeProduct } = cartSlice.actions;
+export const { addProduct, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;
