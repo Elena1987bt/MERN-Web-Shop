@@ -16,5 +16,5 @@ router.post('/', auth, createOrder);
 router.get('/find/:userId', auth, getUserOrders);
 router.put('/:id', auth, updateOrder);
 router.delete('/:id', auth, deleteOrder);
-router.get('/stats', auth, getMonthlyIncome);
+router.get('/income', auth, getMonthlyIncome);
 module.exports = router;

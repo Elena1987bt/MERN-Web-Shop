@@ -98,10 +98,13 @@ exports.getMonthlyIncome = async (req, res) => {
   const date = new Date();
   const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
   const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
+  const previousPreMonth = new Date(
+    new Date().setMonth(previousMonth.getMonth() - 1)
+  );
   if (req.isAdmin) {
     try {
       const income = await Order.aggregate([
-        { $match: { createdAt: { $gte: previousMonth } } },
+        { $match: { createdAt: { $gte: previousPreMonth } } },
         {
           $project: {
             month: { $month: '$createdAt' },
@@ -114,9 +117,9 @@ exports.getMonthlyIncome = async (req, res) => {
             total: { $sum: '$sales' },
           },
         },
-      ]);
-      const { _id: month, total } = income[0];
-      res.status(200).json({ month, salesPerMonth: total });
+      ]).sort({ _id: -1 });
+
+      res.status(200).json(income);
     } catch (err) {
       res.status(500).json(err);
     }
