@@ -6,6 +6,9 @@
   display: flex;
   align-items: center;
 }
+.productListItem span {
+  margin-right: 5px;
+}
 
 .productListImg {
   width: 32px;

@@ -58,13 +58,21 @@
 }
 
 .productInfoItem {
-  width: 150px;
+  /* width: 150px; */
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  margin-bottom: 5px;
+}
+.productInfoKey {
+  margin-right: 10px;
+}
+option {
+  padding: 5px;
 }
 
 .productInfoValue {
   font-weight: 300;
+  margin-right: 10px;
 }
 
 .productBottom {
@@ -81,22 +89,30 @@
 
 .productFormLeft {
   display: flex;
+  flex-wrap: wrap;
+  /* flex-direction: column;  */
+}
+.productFormItem {
+  width: 40%;
+  display: flex;
   flex-direction: column;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
 
-.productFormLeft > label {
+.productFormItem > label {
   margin-bottom: 10px;
   color: gray;
 }
 
-.productFormLeft > input {
+.productFormItem > input {
   margin-bottom: 10px;
   border: none;
-  padding: 5px;
+  padding: 15px;
   border-bottom: 1px solid gray;
 }
 
-.productFormLeft > select {
+.productFormItem > select {
   margin-bottom: 10px;
 }
 

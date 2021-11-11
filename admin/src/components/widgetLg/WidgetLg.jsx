@@ -24,7 +24,7 @@ const WidgetLg = () => {
   }, [TOKEN, orders]);
   return (
     <div className="widgetLg">
-      <h3 className="widgetLgTitle">Latest transactions</h3>
+      <h3 className="widgetLgTitle">Latest orders</h3>
       <table className="widgetLgTable">
         <thead>
           <tr className="widgetLgTr">

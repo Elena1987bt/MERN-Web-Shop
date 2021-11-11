@@ -16,9 +16,8 @@ import {
 } from './productRedux';
 
 const BASE_URL = 'http://127.0.0.1:5000/api';
-// const TOKEN =
-//   JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user).currentUser
-//     .token ;
+const TOKEN = JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user)
+  .currentUser.token;
 
 export const login = async (dispatch, user) => {
   dispatch(loginStart());
@@ -30,24 +29,28 @@ export const login = async (dispatch, user) => {
   }
 };
 
-// export const getProducts = async (dispatch) => {
-//   dispatch(getProductStart());
-//   try {
-//     const res = await axios.get(`${BASE_URL}/products`, {
-//       headers: {
-//         authorization: 'Bearer ' + TOKEN,
-//       },
-//     });
-//     dispatch(getProductSuccess(res.data));
-//   } catch (err) {
-//     dispatch(getProductFailure());
-//   }
-// };
+export const getProducts = async (dispatch) => {
+  dispatch(getProductStart());
+  try {
+    const res = await axios.get(`${BASE_URL}/product`, {
+      headers: {
+        authorization: 'Bearer ' + TOKEN,
+      },
+    });
+    dispatch(getProductSuccess(res.data.products));
+  } catch (err) {
+    dispatch(getProductFailure());
+  }
+};
 
 export const deleteProduct = async (id, dispatch) => {
   dispatch(deleteProductStart());
   try {
-    // const res = await userRequest.delete(`/products/${id}`);
+    const res = await axios.delete(`${BASE_URL}/products/${id}`, {
+      headers: {
+        authorization: 'Bearer ' + TOKEN,
+      },
+    });
     dispatch(deleteProductSuccess(id));
   } catch (err) {
     dispatch(deleteProductFailure());

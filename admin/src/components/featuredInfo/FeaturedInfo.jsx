@@ -1,40 +1,89 @@
-import React from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import './featuredInfo.css';
 const FeaturedInfo = () => {
+  const [income, setIncome] = useState([]);
+  const [perc, setPerc] = useState(0);
+  const [percPreviosMonth, setPercPreviosMonth] = useState(0);
+
+  //  const [incomePerc, setPerc] = useState(0);
+  const TOKEN = useSelector((state) => state.user.currentUser).token;
+  const MONTHS = useMemo(
+    () => [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    []
+  );
+
+  useEffect(() => {
+    const getIncome = async () => {
+      try {
+        const res = await axios.get('http://127.0.0.1:5000/api/order/income', {
+          headers: { authorization: `Bearer ${TOKEN}` },
+        });
+
+        setIncome(
+          res.data.map((item, i) => {
+            const obj = {
+              ...item,
+              name: MONTHS[item._id - 1],
+            };
+            return obj;
+          })
+        );
+        setPerc((res.data[0].total * 100) / res.data[1].total - 100);
+        setPercPreviosMonth(
+          (res.data[1].total * 100) / res.data[2].total - 100
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getIncome();
+  }, [TOKEN, MONTHS]);
+
+  console.log(income);
+  console.log(percPreviosMonth);
+  const Percentage = ({ perc }) => {
+    return (
+      <span className="featuredMoneyRate">
+        % {Math.floor(perc)}
+        {perc < 0 ? (
+          <ArrowDownwardIcon className="featuredIcon negative" />
+        ) : (
+          <ArrowUpwardIcon className="featuredIcon" />
+        )}
+      </span>
+    );
+  };
   return (
     <div className="featured">
-      <div className="featuredItem">
-        <span className="featuredTitle">Revalue</span>
-        <div className="featuredMoneyContainer">
-          <span className="featuredMoney">$2,415</span>
-          <span className="featuredMoneyRate">
-            -11.4 <ArrowDownwardIcon className="featuredIcon negative" />
-          </span>
+      {income.map((item, i) => (
+        <div className="featuredItem" key={item._id}>
+          <span className="featuredTitle">{item.name}</span>
+          <div className="featuredMoneyContainer">
+            <span className="featuredMoney">${item.total}</span>
+            <Percentage
+              perc={i === income.length - 2 ? percPreviosMonth : perc}
+            />
+          </div>
+          <span className="featuredSub">Compared to last month</span>
         </div>
-        <span className="featuredSub">Compared to last month</span>
-      </div>
-      <div className="featuredItem">
-        <span className="featuredTitle">Sales</span>
-        <div className="featuredMoneyContainer">
-          <span className="featuredMoney">$4,415</span>
-          <span className="featuredMoneyRate">
-            -1.4 <ArrowDownwardIcon className="featuredIcon negative" />
-          </span>
-        </div>
-        <span className="featuredSub">Compared to last month</span>
-      </div>
-      <div className="featuredItem">
-        <span className="featuredTitle">Cost</span>
-        <div className="featuredMoneyContainer">
-          <span className="featuredMoney">$2,225</span>
-          <span className="featuredMoneyRate">
-            +2.4 <ArrowUpwardIcon className="featuredIcon" />
-          </span>
-        </div>
-        <span className="featuredSub">Compared to last month</span>
-      </div>
+      ))}
     </div>
   );
 };
