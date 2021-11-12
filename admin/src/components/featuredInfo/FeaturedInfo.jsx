@@ -56,8 +56,6 @@ const FeaturedInfo = () => {
     getIncome();
   }, [TOKEN, MONTHS]);
 
-  console.log(income);
-  console.log(percPreviosMonth);
   const Percentage = ({ perc }) => {
     return (
       <span className="featuredMoneyRate">

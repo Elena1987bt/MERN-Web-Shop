@@ -46,7 +46,7 @@ export const getProducts = async (dispatch) => {
 export const deleteProduct = async (id, dispatch) => {
   dispatch(deleteProductStart());
   try {
-    const res = await axios.delete(`${BASE_URL}/products/${id}`, {
+    const res = await axios.delete(`${BASE_URL}/product/${id}`, {
       headers: {
         authorization: 'Bearer ' + TOKEN,
       },
@@ -69,7 +69,12 @@ export const updateProduct = async (id, product, dispatch) => {
 export const addProduct = async (product, dispatch) => {
   dispatch(addProductStart());
   try {
-    const res = await axios.post(`${BASE_URL}/products`, product);
+    const res = await axios.post(`${BASE_URL}/product`, product, {
+      headers: {
+        authorization: 'Bearer ' + TOKEN,
+      },
+    });
+
     dispatch(addProductSuccess(res.data));
   } catch (err) {
     dispatch(addProductFailure());
