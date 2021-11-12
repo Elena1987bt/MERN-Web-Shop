@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import Chart from '../../components/chart/Chart';
 import { useSelector, useDispatch } from 'react-redux';
 import { productData } from '../../dummyData';
@@ -17,6 +17,8 @@ import './product.css';
 const Product = () => {
   const [inputs, setInputs] = useState({});
   const [file, setFile] = useState(null);
+  const [update, setUpdate] = useState(false);
+  const history = useHistory();
   const location = useLocation();
   const productId = location.pathname.split('/')[2];
   const product = useSelector((state) =>
@@ -35,7 +37,9 @@ const Product = () => {
     });
   };
   const handleClick = (e) => {
-    e.preventDEfault();
+    e.preventDefault();
+    if (Object.keys(inputs).length === 0) return;
+
     if (file) {
       const fileName = new Date().getTime() + file.name;
       const storage = getStorage(app);
@@ -61,16 +65,19 @@ const Product = () => {
           // Handle unsuccessful uploads
         },
         () => {
-          // Handle successful uploads on complete
-          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            const product = { ...inputs, img: downloadURL };
-            updateProduct(productId, product, dispatch);
+            setInputs((prev) => {
+              return { ...prev, img: downloadURL };
+            });
+
+            updateProduct(productId, inputs, dispatch);
+            history.push('/productList');
           });
         }
       );
     } else {
       updateProduct(productId, inputs, dispatch);
+      history.push('/productList');
     }
   };
 
@@ -88,7 +95,7 @@ const Product = () => {
         </div>
         <div className="productTopRight">
           <div className="productInfoTop">
-            <img src={product.img} alt="" className="productInfoImg" />
+            <img src={product?.img} alt="" className="productInfoImg" />
             <span className="productName">{product.title}</span>
           </div>
           <div className="productInfoBottom">
@@ -102,20 +109,26 @@ const Product = () => {
             </div>
             <div className="productInfoItem">
               <span className="productInfoKey">Categories:</span>
-              {product.categories.map((category) => (
-                <span className="productInfoValue">{category},</span>
+              {product.categories.map((cat, i) => (
+                <span className="productInfoValue">
+                  {i === product.categories.length - 1 ? cat : cat + ','}
+                </span>
               ))}
             </div>
             <div className="productInfoItem">
               <span className="productInfoKey">Size:</span>
-              {product.size.map((s) => (
-                <span className="productInfoValue">{s},</span>
+              {product.size.map((s, i) => (
+                <span className="productInfoValue">
+                  {i === product.size.length - 1 ? s : s + ','}
+                </span>
               ))}
             </div>
             <div className="productInfoItem">
               <span className="productInfoKey">Colors:</span>
-              {product.color.map((col) => (
-                <span className="productInfoValue">{col},</span>
+              {product.color.map((col, i) => (
+                <span className="productInfoValue">
+                  {i === product.color.length - 1 ? col : col + ','}
+                </span>
               ))}
             </div>
             <div className="productInfoItem">
@@ -134,6 +147,7 @@ const Product = () => {
               <label>Product Name</label>
               <input
                 type="text"
+                name="title"
                 placeholder={product.title}
                 onChange={handleChange}
               />
@@ -142,6 +156,7 @@ const Product = () => {
               <label>Product Price</label>
               <input
                 type="text"
+                name="price"
                 placeholder={product.price}
                 onChange={handleChange}
               />
@@ -150,6 +165,7 @@ const Product = () => {
               <label>Product description</label>
               <input
                 type="text"
+                name="desc"
                 placeholder={product.desc}
                 onChange={handleChange}
               />
@@ -164,45 +180,35 @@ const Product = () => {
             <div className="productFormItem">
               <label>Categories</label>
               <select
-                name="content"
+                name="categories"
                 id="active"
                 multiple
                 onChange={handleSelect}
               >
-                <option value="men">Men</option>
-                <option value="women">Women</option>
-                <option value="kids">Kids</option>
-                <option value="dresses">Dresses</option>
-                <option value="jackets">Jackets</option>
-                <option value="t-shirts">T-shirts</option>
-                <option value="coat">Coat</option>
+                <option value="Men">Men</option>
+                <option value="Women">Women</option>
+                <option value="Kids">Kids</option>
+                <option value="Dresses">Dresses</option>
+                <option value="Jackets">Jackets</option>
+                <option value="T-shirts">T-shirts</option>
+                <option value="Coat">Coat</option>
               </select>
             </div>
 
             <div className="productFormItem">
               <label>Size</label>
-              <select
-                name="active"
-                id="active"
-                multiple
-                onChange={handleSelect}
-              >
-                <option value="xs">XS</option>
-                <option value="s">S</option>
-                <option value="m">M</option>
-                <option value="l">L</option>
-                <option value="xl">XL</option>
-                <option value="xxl">XXL</option>
+              <select name="size" id="active" multiple onChange={handleSelect}>
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
               </select>
             </div>
             <div className="productFormItem">
               <label>Color</label>
-              <select
-                name="active"
-                id="active"
-                multiple
-                onChange={handleSelect}
-              >
+              <select name="color" id="active" multiple onChange={handleSelect}>
                 <option value="green">Green</option>
                 <option value="blue">Blue</option>
                 <option value="red">Red</option>
@@ -225,7 +231,11 @@ const Product = () => {
                 onChange={(e) => setFile(e.target.files[0])}
               />
             </div>
-            <button className="productButton" onClick={handleClick}>
+            <button
+              className={update ? 'productButton' : 'productButton notUpdated'}
+              disabled={update}
+              onClick={handleClick}
+            >
               Update
             </button>
           </div>

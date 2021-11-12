@@ -20,7 +20,7 @@ const ProductList = () => {
     {
       field: 'title',
       headerName: 'Product',
-      width: 200,
+      width: 160,
       renderCell: (params) => {
         return (
           <div className="productListItem">
@@ -33,7 +33,7 @@ const ProductList = () => {
     {
       field: 'inStock',
       headerName: 'In Stock',
-      width: 140,
+      width: 130,
     },
     {
       field: 'size',
@@ -42,8 +42,8 @@ const ProductList = () => {
       renderCell: (params) => {
         return (
           <div className="productListItem">
-            {params.row.size.map((s) => (
-              <span>{s}</span>
+            {params.row.size.slice(0, 3).map((s, i) => (
+              <span>{i === params.row.size.length - 1 ? s : s + ','}</span>
             ))}
           </div>
         );
@@ -52,12 +52,14 @@ const ProductList = () => {
     {
       field: 'categories',
       headerName: 'Categories',
-      width: 120,
+      width: 160,
       renderCell: (params) => {
         return (
           <div className="productListItem">
-            {params.row.categories.map((category) => (
-              <span>{category} </span>
+            {params.row.categories.slice(0, 3).map((cat, i) => (
+              <span>
+                {i === params.row.categories.length - 1 ? cat : cat + ','}
+              </span>
             ))}
           </div>
         );

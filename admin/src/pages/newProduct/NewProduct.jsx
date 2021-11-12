@@ -143,9 +143,9 @@ const NewProduct = () => {
           >
             <option value="Men">Men</option>
             <option value="Women">Women</option>
-            <option value="kids">Kids</option>
+            <option value="Kids">Kids</option>
             <option value="Dresses">Dresses</option>
-            <option value="jackets">Jackets</option>
+            <option value="Jackets">Jackets</option>
             <option value="T-shirts">T-shirts</option>
             <option value="Coat">Coat</option>
           </select>
@@ -183,6 +183,7 @@ const NewProduct = () => {
         <div className="addProductItem">
           <label>Stock</label>
           <select name="inStock" onChange={handleChange}>
+            <option>Yes/No</option>
             <option value="true">Yes</option>
             <option value="false">No</option>
           </select>

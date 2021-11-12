@@ -147,3 +147,6 @@ option {
   font-weight: 600;
   cursor: pointer;
 }
+.notUpdated {
+  background-color: rgb(17, 17, 48);
+}

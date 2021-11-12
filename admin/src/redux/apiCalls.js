@@ -61,7 +61,14 @@ export const updateProduct = async (id, product, dispatch) => {
   dispatch(updateProductStart());
   try {
     // update
-    dispatch(updateProductSuccess({ id, product }));
+    const res = await axios.put(`${BASE_URL}/product/${id}`, product, {
+      headers: {
+        authorization: 'Bearer ' + TOKEN,
+      },
+    });
+    const updatedProduct = res.data;
+    console.log(res.data);
+    dispatch(updateProductSuccess({ id, updatedProduct }));
   } catch (err) {
     dispatch(updateProductFailure());
   }
