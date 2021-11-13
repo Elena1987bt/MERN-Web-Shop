@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 const Success = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  //console.log(location);
   const data = location.state.stripeData;
   const cart = location.state.products;
   const currentUser = useSelector((state) => state.user.currentUser);

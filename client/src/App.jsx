@@ -18,7 +18,6 @@ import Newsletter from './components/Newsletter';
 import Success from './pages/Success';
 const App = () => {
   const user = useSelector((state) => state.user.currentUser);
-  console.log(user);
   return (
     <Router>
       <Navbar />
