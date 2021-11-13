@@ -16,8 +16,9 @@ import {
 } from './productRedux';
 
 const BASE_URL = 'http://127.0.0.1:5000/api';
-const TOKEN = JSON.parse(JSON.parse(localStorage.getItem('persist:root')).user)
-  .currentUser.token;
+const user = JSON.parse(localStorage.getItem('persist:root'))?.user;
+const currentUser = user && JSON.parse(user).currentUser;
+const TOKEN = currentUser?.token;
 
 export const login = async (dispatch, user) => {
   dispatch(loginStart());
