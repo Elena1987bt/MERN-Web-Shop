@@ -43,7 +43,9 @@ const ProductList = () => {
         return (
           <div className="productListItem">
             {params.row.size.slice(0, 3).map((s, i) => (
-              <span>{i === params.row.size.length - 1 ? s : s + ','}</span>
+              <span key={i}>
+                {i === params.row.size.length - 1 ? s : s + ','}
+              </span>
             ))}
           </div>
         );
@@ -57,7 +59,7 @@ const ProductList = () => {
         return (
           <div className="productListItem">
             {params.row.categories.slice(0, 3).map((cat, i) => (
-              <span>
+              <span key={i}>
                 {i === params.row.categories.length - 1 ? cat : cat + ','}
               </span>
             ))}

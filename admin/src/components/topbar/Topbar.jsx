@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/userRedux';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -10,6 +10,8 @@ import './topbar.css';
 
 const Topbar = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.currentUser);
+  // console.log(user);
   return (
     <div className="topbar">
       <div className="topbarWrapper">
@@ -27,7 +29,7 @@ const Topbar = () => {
           <div className="topbarIconContainer">
             <SettingsIcon />
           </div>
-          <Link to="/user/123233" className="link">
+          <Link to={`/user/${user._id}`} className="link">
             <Avatar alt="Name" src="" className="topAvatar" />
           </Link>
           <div

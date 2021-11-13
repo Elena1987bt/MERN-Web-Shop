@@ -67,7 +67,7 @@ export const updateProduct = async (id, product, dispatch) => {
       },
     });
     const updatedProduct = res.data;
-    console.log(res.data);
+
     dispatch(updateProductSuccess({ id, updatedProduct }));
   } catch (err) {
     dispatch(updateProductFailure());

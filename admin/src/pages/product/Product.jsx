@@ -17,7 +17,9 @@ import './product.css';
 const Product = () => {
   const [inputs, setInputs] = useState({});
   const [file, setFile] = useState(null);
-  const [update, setUpdate] = useState(false);
+  const [uploaded, setUploaded] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+
   const history = useHistory();
   const location = useLocation();
   const productId = location.pathname.split('/')[2];
@@ -36,11 +38,13 @@ const Product = () => {
       return { ...prev, [e.target.name]: value };
     });
   };
-  const handleClick = (e) => {
+  const handleUpload = (e) => {
     e.preventDefault();
-    if (Object.keys(inputs).length === 0) return;
-
+    if (!file) {
+      handleSubmit(e);
+    }
     if (file) {
+      setIsUploading(true);
       const fileName = new Date().getTime() + file.name;
       const storage = getStorage(app);
       const storageRef = ref(storage, `images/${fileName}`);
@@ -66,21 +70,24 @@ const Product = () => {
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setIsUploading(false);
             setInputs((prev) => {
               return { ...prev, img: downloadURL };
             });
-
-            updateProduct(productId, inputs, dispatch);
-            history.push('/productList');
+            setUploaded(true);
           });
         }
       );
-    } else {
-      updateProduct(productId, inputs, dispatch);
-      history.push('/productList');
     }
   };
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (Object.keys(inputs).length === 0 && !file) return;
+    updateProduct(productId, inputs, dispatch);
+    history.push('/productList');
+    window.location.reload();
+  };
+  console.log(inputs);
   return (
     <div className="product">
       <div className="productTitleContainer">
@@ -104,13 +111,17 @@ const Product = () => {
               <span className="productInfoValue">{product._id}</span>
             </div>
             <div className="productInfoItem">
+              <span className="productInfoKey">Description:</span>
+              <span className="productInfoValue">{product.desc}</span>
+            </div>
+            <div className="productInfoItem">
               <span className="productInfoKey">Price:</span>
               <span className="productInfoValue">${product.price}</span>
             </div>
             <div className="productInfoItem">
               <span className="productInfoKey">Categories:</span>
               {product.categories.map((cat, i) => (
-                <span className="productInfoValue">
+                <span className="productInfoValue" key={i}>
                   {i === product.categories.length - 1 ? cat : cat + ','}
                 </span>
               ))}
@@ -118,7 +129,7 @@ const Product = () => {
             <div className="productInfoItem">
               <span className="productInfoKey">Size:</span>
               {product.size.map((s, i) => (
-                <span className="productInfoValue">
+                <span className="productInfoValue" key={i}>
                   {i === product.size.length - 1 ? s : s + ','}
                 </span>
               ))}
@@ -126,7 +137,7 @@ const Product = () => {
             <div className="productInfoItem">
               <span className="productInfoKey">Colors:</span>
               {product.color.map((col, i) => (
-                <span className="productInfoValue">
+                <span className="productInfoValue" key={i}>
                   {i === product.color.length - 1 ? col : col + ','}
                 </span>
               ))}
@@ -221,7 +232,7 @@ const Product = () => {
           <div className="productFormRight">
             <div className="productUpload">
               <img src={product.img} alt="" className="productUploadImg" />
-              <label for="file">
+              <label htmlFor="file">
                 <PublishIcon className="uploadIcon" />
               </label>
               <input
@@ -231,13 +242,18 @@ const Product = () => {
                 onChange={(e) => setFile(e.target.files[0])}
               />
             </div>
-            <button
-              className={update ? 'productButton' : 'productButton notUpdated'}
-              disabled={update}
-              onClick={handleClick}
-            >
-              Update
-            </button>
+            {uploaded ? (
+              <button className="productButton" onClick={handleSubmit}>
+                Done
+              </button>
+            ) : (
+              <button
+                className="productButton"
+                onClick={!uploaded ? handleUpload : handleSubmit}
+              >
+                {!isUploading ? 'Update' : `Uploading... `}
+              </button>
+            )}
           </div>
         </form>
       </div>

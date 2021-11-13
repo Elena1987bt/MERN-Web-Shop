@@ -5,10 +5,16 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import PublishIcon from '@mui/icons-material/Publish';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import './user.css';
 
 const User = () => {
+  const location = useLocation();
+  const userId = location.pathname.split('/')[2];
+  const user = useSelector((state) =>
+    state.product.products.find((user) => user._id === userId)
+  );
   return (
     <div className="user">
       <div className="userTitleContainer">
