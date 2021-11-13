@@ -4,7 +4,7 @@ const Order = require('../models/orderModel');
 exports.getOrders = async (req, res) => {
   if (req.isAdmin) {
     try {
-      const orders = await Order.find().limit(5);
+      const orders = await Order.find().limit(5).sort({ _id: -1 });
       res.status(200).json({ result: orders.length, orders });
     } catch (err) {
       res

@@ -43,7 +43,6 @@ exports.updateUser = async (req, res) => {
   const { id } = req.params;
   const { password } = req.body;
   let userData = req.body;
-  console.log(req.body);
 
   if (req.userId === id || req.isAdmin) {
     if (password) {
