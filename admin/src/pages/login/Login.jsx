@@ -8,7 +8,6 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  // const { isFetching } = useSelector((state) => state.user.isFetching);
   const user = useSelector((state) => state.user.currentUser);
   const handleLogin = (e) => {
     e.preventDefault();

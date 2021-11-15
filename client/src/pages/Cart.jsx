@@ -88,6 +88,7 @@ const ProductId = styled.span``;
 const ProductColor = styled.div`
   width: 20px;
   height: 20px;
+  border: 1px solid black;
   border-radius: 50%;
   background-color: ${(props) => props.color};
 `;
@@ -221,7 +222,13 @@ const Cart = () => {
           </TopTexts>
 
           <TopButton type="filled">
-            {currentUser ? 'CHECKOUT NOW ' : 'LOG IN TO PROCEED ...'}
+            {currentUser ? (
+              'CHECKOUT NOW '
+            ) : (
+              <Link to="/login" className="link" style={{ color: 'white' }}>
+                LOG IN TO PROCEED ...
+              </Link>
+            )}
           </TopButton>
         </Top>
         <Bottom>
@@ -237,7 +244,7 @@ const Cart = () => {
                     <ProductId>
                       <b>ID:</b> {product._id}
                     </ProductId>
-                    <ProductColor color={product.color} />;
+                    <ProductColor color={product.color} />
                     <ProductSize>
                       <b>Size:</b> {product.size}
                     </ProductSize>
@@ -262,15 +269,15 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 5.90</SummaryItemPrice>
+              <SummaryItemPrice>$ 0</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+              <SummaryItemPrice>$ 0</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             {currentUser ? (
               <StripeCheckout
@@ -286,7 +293,9 @@ const Cart = () => {
                 <Button>CHECKOUT NOW</Button>
               </StripeCheckout>
             ) : (
-              <Button>Log in to make an order</Button>
+              <Link to="/login" className="link" style={{ color: 'white' }}>
+                <Button>Log in to make an order</Button>
+              </Link>
             )}
             <Button onClick={handleDelete}>CLEAR CART</Button>
           </Summary>

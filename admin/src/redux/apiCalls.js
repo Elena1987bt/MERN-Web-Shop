@@ -14,6 +14,14 @@ import {
   addProductStart,
   addProductSuccess,
 } from './productRedux';
+import {
+  getCustomersFailure,
+  getCustomersStart,
+  getCustomersSuccess,
+  deleteCustomerFailure,
+  deleteCustomerStart,
+  deleteCustomerSuccess,
+} from './customerRedux';
 
 const BASE_URL = 'http://127.0.0.1:5000/api';
 const user = JSON.parse(localStorage.getItem('persist:root'))?.user;
@@ -35,7 +43,7 @@ export const getProducts = async (dispatch) => {
   try {
     const res = await axios.get(`${BASE_URL}/product`, {
       headers: {
-        authorization: 'Bearer ' + TOKEN,
+        authorization: `Bearer ${TOKEN}`,
       },
     });
     dispatch(getProductSuccess(res.data.products));
@@ -49,7 +57,7 @@ export const deleteProduct = async (id, dispatch) => {
   try {
     const res = await axios.delete(`${BASE_URL}/product/${id}`, {
       headers: {
-        authorization: 'Bearer ' + TOKEN,
+        authorization: `Bearer ${TOKEN}`,
       },
     });
     dispatch(deleteProductSuccess(id));
@@ -64,7 +72,7 @@ export const updateProduct = async (id, product, dispatch) => {
     // update
     const res = await axios.put(`${BASE_URL}/product/${id}`, product, {
       headers: {
-        authorization: 'Bearer ' + TOKEN,
+        authorization: `Bearer ${TOKEN}`,
       },
     });
     const updatedProduct = res.data;
@@ -79,7 +87,7 @@ export const addProduct = async (product, dispatch) => {
   try {
     const res = await axios.post(`${BASE_URL}/product`, product, {
       headers: {
-        authorization: 'Bearer ' + TOKEN,
+        authorization: `Bearer ${TOKEN}`,
       },
     });
 
@@ -90,3 +98,30 @@ export const addProduct = async (product, dispatch) => {
 };
 
 // USERS
+export const getCustomers = async (dispatch) => {
+  dispatch(getCustomersStart());
+  try {
+    const res = await axios.get(`${BASE_URL}/user`, {
+      headers: {
+        authorization: `Bearer ${TOKEN}`,
+      },
+    });
+
+    dispatch(getCustomersSuccess(res.data.users));
+  } catch (err) {
+    dispatch(getCustomersFailure());
+  }
+};
+export const deleteCustomer = async (id, dispatch) => {
+  dispatch(deleteCustomerStart());
+  try {
+    const res = await axios.delete(`${BASE_URL}/user/${id}`, {
+      headers: {
+        authorization: `Bearer ${TOKEN}`,
+      },
+    });
+    dispatch(deleteCustomerSuccess(id));
+  } catch (err) {
+    dispatch(deleteCustomerFailure());
+  }
+};

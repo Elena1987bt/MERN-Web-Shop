@@ -34,7 +34,6 @@ const Success = () => {
           }
         );
         setOrderId(res.data._id);
-        dispatch(clearCart());
       } catch (err) {
         console.log(err);
       }
@@ -55,7 +54,11 @@ const Success = () => {
       {orderId
         ? `Order has been created successfully. Your order number is ${orderId}`
         : ` Your order is being prepared...`}
-      <Link to="/" style={{ padding: 10, marginTop: 20 }} className="link">
+      <Link
+        to="/"
+        style={{ padding: 10, marginTop: 20, border: '1px solid black' }}
+        className="link"
+      >
         Go to Homepage
       </Link>
     </div>

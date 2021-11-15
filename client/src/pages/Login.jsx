@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { login } from '../redux/apiCalls';
 import { mobile } from '../responsive';
@@ -70,17 +70,30 @@ const Error = styled.span`
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emptyFields, setEmptyFields] = useState(false);
   const dispatch = useDispatch();
-  const { isFetching, error } = useSelector((state) => state.user);
+  const error = useSelector((state) => state.user.error);
 
   const handleClick = (e) => {
     e.preventDefault();
+    if (!email || !password) {
+      setEmptyFields(true);
+      return;
+    }
     login(dispatch, { email, password });
   };
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setEmptyFields(false);
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, [emptyFields]);
+
   return (
     <Container>
       <Wrapper>
         <Title>SIGN IN</Title>
+        {emptyFields && <Error>Please fill all the fields!</Error>}
         <Form>
           <Input
             placeholder="email"
@@ -91,10 +104,8 @@ const Login = () => {
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Button onClick={handleClick} disabled={isFetching}>
-            LOGIN
-          </Button>
-          {error && <Error>Something went wrong...</Error>}
+          <Button onClick={handleClick}>LOGIN</Button>
+          {error.err && <Error>{error.message}</Error>}
           <Span>DO NOT YOU REMEMBER THE PASSWORD?</Span>
           <Link to="/register" className="link">
             <Span>CREATE A NEW ACCOUNT</Span>

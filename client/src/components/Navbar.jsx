@@ -4,6 +4,7 @@ import Badge from '@mui/material/Badge';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/userRedux';
+import { clearCart } from '../redux/cartRedux';
 import styled from 'styled-components';
 import { mobile } from '../responsive';
 
@@ -81,6 +82,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearCart());
   };
   return (
     <Container>

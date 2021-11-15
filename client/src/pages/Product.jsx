@@ -32,7 +32,9 @@ const InfoContainer = styled.div`
   padding: 0px 50px;
   ${mobile({ padding: '10px' })}
 `;
-
+const Error = styled.span`
+  color: red;
+`;
 const Title = styled.h1`
   font-weight: 200;
 `;
@@ -68,6 +70,7 @@ const FilterColor = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 50%;
+  border: 1px solid black;
   background-color: ${(props) => props.color};
   margin: 0px 5px;
   cursor: pointer;
@@ -123,6 +126,7 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState('');
   const [size, setSize] = useState('');
+  const [error, setError] = useState({ err: false, message: '' });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -139,6 +143,15 @@ const Product = () => {
     getProduct();
   }, [id]);
   const handleClick = () => {
+    if (!color) {
+      setError({ err: true, message: 'Please choose a color!' });
+      return;
+    }
+
+    if (!size) {
+      setError({ err: true, message: 'Please choose a size!' });
+      return;
+    }
     dispatch(addProduct({ ...product, quantity, color, size }));
   };
 
@@ -149,6 +162,12 @@ const Product = () => {
       setQuantity(quantity + 1);
     }
   };
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setError({ err: false, message: '' });
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, [error]);
   return (
     <Container>
       <Wrapper>
@@ -156,6 +175,7 @@ const Product = () => {
           <Image src={product?.img} />
         </ImgContainer>
         <InfoContainer>
+          <Error>{error.err && error.message}</Error>
           <Title>{product?.title}</Title>
           <Desc>{product?.desc}</Desc>
           <Price>$ {product?.price}</Price>
@@ -166,13 +186,17 @@ const Product = () => {
                 <FilterColor
                   color={color}
                   key={color}
-                  onClick={() => setColor(color)}
+                  onClick={(e) => {
+                    e.target.style.border = '5px solid black';
+                    setColor(color);
+                  }}
                 />
               ))}
             </Filter>
             <Filter>
               <FilterTitle>Size</FilterTitle>
               <FilterSize onChange={(e) => setSize(e.target.value)}>
+                <FilterSizeOption>Choose a size</FilterSizeOption>
                 {product.size?.map((size) => (
                   <FilterSizeOption key={size}>{size}</FilterSizeOption>
                 ))}

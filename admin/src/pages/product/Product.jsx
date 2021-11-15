@@ -87,7 +87,7 @@ const Product = () => {
     history.push('/productList');
     window.location.reload();
   };
-  console.log(inputs);
+
   return (
     <div className="product">
       <div className="productTitleContainer">
@@ -221,10 +221,12 @@ const Product = () => {
               <label>Color</label>
               <select name="color" id="active" multiple onChange={handleSelect}>
                 <option value="green">Green</option>
+                <option value="white">White</option>
                 <option value="blue">Blue</option>
                 <option value="red">Red</option>
                 <option value="yellow">Yellow</option>
                 <option value="pink">Pink</option>
+                <option value="grey">Black</option>
                 <option value="grey">Grey</option>
               </select>
             </div>

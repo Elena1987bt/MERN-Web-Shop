@@ -11,7 +11,7 @@ import './topbar.css';
 const Topbar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
-  // console.log(user);
+
   return (
     <div className="topbar">
       <div className="topbarWrapper">
