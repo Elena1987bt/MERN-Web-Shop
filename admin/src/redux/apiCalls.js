@@ -23,7 +23,7 @@ import {
   deleteCustomerSuccess,
 } from './customerRedux';
 
-const BASE_URL = 'http://127.0.0.1:5000/api';
+const BASE_URL = 'https://web-shop-mern.herokuapp.com/api';
 const user = JSON.parse(localStorage.getItem('persist:root'))?.user;
 const currentUser = user && JSON.parse(user).currentUser;
 const TOKEN = currentUser?.token;

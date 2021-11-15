@@ -32,9 +32,12 @@ const Home = () => {
   useEffect(() => {
     const getStats = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:5000/api/user/stats', {
-          headers: { authorization: `Bearer ${TOKEN}` },
-        });
+        const res = await axios.get(
+          'https://web-shop-mern.herokuapp.com/api/user/stats',
+          {
+            headers: { authorization: `Bearer ${TOKEN}` },
+          }
+        );
 
         res.data.map((item) =>
           setUserStats((prev) => [

@@ -17,7 +17,7 @@ const Success = () => {
     const createOrder = async () => {
       try {
         const res = await axios.post(
-          'http://127.0.0.1:5000/api/order',
+          'https://web-shop-mern.herokuapp.com/api/order',
           {
             userId: currentUser._id,
             products: cart.products.map((item) => ({

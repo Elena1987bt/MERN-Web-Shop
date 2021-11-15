@@ -8,7 +8,7 @@ import {
   registerSuccess,
 } from './userRedux';
 
-const BASE_URL = 'http://127.0.0.1:5000/api';
+const BASE_URL = 'https://web-shop-mern.herokuapp.com/api';
 
 export const login = async (dispatch, user) => {
   dispatch(loginStart());

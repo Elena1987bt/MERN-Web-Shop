@@ -10,11 +10,14 @@ const WidgetLg = () => {
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:5000/api/order', {
-          headers: {
-            authorization: `Bearer ${TOKEN}`,
-          },
-        });
+        const res = await axios.get(
+          'https://web-shop-mern.herokuapp.com/api/order',
+          {
+            headers: {
+              authorization: `Bearer ${TOKEN}`,
+            },
+          }
+        );
         setOrders(res.data.orders);
       } catch (err) {
         console.log(err);

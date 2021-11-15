@@ -32,9 +32,12 @@ const FeaturedInfo = () => {
   useEffect(() => {
     const getIncome = async () => {
       try {
-        const res = await axios.get('http://127.0.0.1:5000/api/order/income', {
-          headers: { authorization: `Bearer ${TOKEN}` },
-        });
+        const res = await axios.get(
+          'https://web-shop-mern.herokuapp.com/api/order/income',
+          {
+            headers: { authorization: `Bearer ${TOKEN}` },
+          }
+        );
 
         setIncome(
           res.data.map((item, i) => {

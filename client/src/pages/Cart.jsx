@@ -190,7 +190,7 @@ const Cart = () => {
     const makePayment = async () => {
       try {
         const res = await axios.post(
-          'http://127.0.0.1:5000/api/checkout/payment',
+          'https://web-shop-mern.herokuapp.com/api/checkout/payment',
           {
             tokenId: stripeToken.id,
             amount: cart.total * 100,

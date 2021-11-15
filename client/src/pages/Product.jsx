@@ -133,7 +133,7 @@ const Product = () => {
     const getProduct = async () => {
       try {
         const res = await axios.get(
-          `http://127.0.0.1:5000/api/product/find/${id}`
+          `https://web-shop-mern.herokuapp.com/api/product/find/${id}`
         );
         setProduct(res.data);
       } catch (err) {
