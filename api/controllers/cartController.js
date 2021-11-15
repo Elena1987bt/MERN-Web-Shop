@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Cart = require('../models/cartModel');
+const Cart = require('../models/CartModel');
 
 exports.getCarts = async (req, res) => {
   if (req.isAdmin) {

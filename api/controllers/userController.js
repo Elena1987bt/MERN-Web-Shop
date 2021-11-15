@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-const User = require('../models/userModel');
+const User = require('../models/UserModel');
 
 exports.getUsers = async (req, res) => {
   const query = req.query.new;

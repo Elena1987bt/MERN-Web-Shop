@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Order = require('../models/orderModel');
+const Order = require('../models/OrderModel');
 
 exports.getOrders = async (req, res) => {
   if (req.isAdmin) {

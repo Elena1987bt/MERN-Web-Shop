@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Product = require('../models/productModel');
+const Product = require('../models/ProductModel');
 
 exports.getProducts = async (req, res) => {
   const qNew = req.query.new;
